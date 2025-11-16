@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>StepLab Admin</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assest/css/admin.css" />
+  </head>
+  <body>
+    <!-- Màn hình đăng nhập -->
+    <div id="login-screen" class="login-screen">
+      <div class="login-card card">
+        <h2>Đăng nhập Admin</h2>
+        <input id="admin-user" placeholder="Tên đăng nhập" autocomplete="off" />
+        <input
+          id="admin-pass"
+          placeholder="Mật khẩu"
+          type="password"
+          autocomplete="off"
+        />
+        <div
+          class="small"
+          id="login-msg"
+          style="color: red; height: 18px"
+        ></div>
+        <div class="actions" style="margin-top: 10px">
+          <button id="login-btn" class="btn primary">Đăng nhập</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Giao diện chính Admin -->
+    <div class="wrap" id="admin-app" style="display: none">
+      <aside class="sidebar">
+        <div class="brand">
+          <img src="./assest/img/StepLab_Logo.svg" alt="logo" />
+          <h1>StepLab Admin</h1>
+        </div>
+        <div class="small">
+          Admin: <strong id="admin-name">Quản trị</strong>
+        </div>
+
+        <nav class="nav-admin">
+          <button data-section="dashboard" class="active">Tổng quan</button>
+          <button data-section="users">Người dùng</button>
+          <button data-section="products">Sản phẩm</button>
+          <button data-section="categories">Loại / Danh mục</button>
+          <button data-section="imports">Phiếu nhập</button>
+          <button data-section="orders">Đơn hàng</button>
+          <button data-section="pricing">Giá & Lợi nhuận</button>
+          <button data-section="inventory">Tồn kho</button>
+          <button data-section="settings">Cài đặt</button>
+        </nav>
+
+        <div style="margin-top: 18px">
+          <button id="logout" class="btn ghost" style="color: #fff">
+            Đăng xuất
+          </button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <h2 id="section-title">Tổng quan</h2>
+        </div>
+
+        <!-- ====== CÁC PHẦN CHÍNH ====== -->
+
+        <section id="dashboard" class="card section">
+          <h3>Tổng quan</h3>
+          <div style="display: flex; gap: 12px; margin-top: 12px">
+            <div class="card" style="flex: 1">
+              Số khách hàng: <strong id="stat-users">0</strong>
+            </div>
+            <div class="card" style="flex: 1">
+              Số sản phẩm: <strong id="stat-products">0</strong>
+            </div>
+            <div class="card" style="flex: 1">
+              Tổng đơn hàng: <strong id="stat-orders">0</strong>
+            </div>
+          </div>
+        </section>
+
+        <section id="users" class="card section hidden">
+          <div class="controls">
+            <input id="user-search" placeholder="Tìm theo email hoặc tên" />
+            <button id="add-user" class="btn primary">Thêm người dùng</button>
+          </div>
+          <div id="users-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Tên</th>
+                  <th>Email</th>
+                  <th>Mật khẩu</th>
+                  <!-- ✅ Thêm cột mật khẩu -->
+                  <th>Trạng thái</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="users-table"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="products" class="card section hidden">
+          <div class="controls">
+            <input id="product-search" placeholder="Tìm theo tên hoặc mã" />
+            <button id="search-product-btn"></button>
+            <select id="filter-category">
+              <option value="">Tất cả danh mục</option>
+            </select>
+            <button id="import-sample" class="btn">Import mẫu</button>
+            <button id="add-product" class="btn primary">Thêm sản phẩm</button>
+          </div>
+          <div id="products-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Ảnh</th>
+                  <th>Tên</th>
+                  <th>Mã</th>
+                  <th>Loại</th>
+                  <th>Giá bán</th>
+                  <th>Tồn</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="products-table"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="categories" class="card section hidden">
+          <h3>Quản lý danh mục & sản phẩm</h3>
+          <div class="controls">
+            <input id="category-name" placeholder="Tên danh mục" />
+            <button id="add-category" class="btn primary">Thêm danh mục</button>
+          </div>
+
+          <ul id="category-list"></ul>
+
+          <hr />
+          <h3>Thêm sản phẩm vào danh mục</h3>
+          <form id="add-product-form">
+            <select id="product-category" required>
+              <option value="">-- Chọn danh mục --</option></select
+            ><br /><br />
+
+            <input
+              id="product-code"
+              placeholder="Mã sản phẩm"
+              required
+            /><br /><br />
+            <input
+              id="product-name"
+              placeholder="Tên sản phẩm"
+              required
+            /><br /><br />
+            <input id="product-desc" placeholder="Mô tả sản phẩm" /><br /><br />
+            <input
+              id="product-price"
+              type="number"
+              placeholder="Giá (VND)"
+              required
+            /><br /><br />
+
+            <label>Hình sản phẩm:</label>
+            <input
+              id="product-image"
+              type="file"
+              accept="image/*"
+            /><br /><br />
+            <img
+              id="preview-product-image"
+              src=""
+              alt=""
+              style="max-width: 100px; display: none; border-radius: 6px"
+            />
+
+            <button type="submit" class="btn primary">Thêm sản phẩm</button>
+          </form>
+
+          <hr />
+          <h3>Danh sách sản phẩm</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Ảnh</th>
+                <th>Tên</th>
+                <th>Mã</th>
+                <th>Loại</th>
+                <th>Giá</th>
+                <th>Mô tả</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="category-products-table"></tbody>
+          </table>
+        </section>
+
+        <!-- ====== PHẦN QUẢN LÝ PHIẾU NHẬP ====== -->
+        <!-- ====== PHẦN QUẢN LÝ PHIẾU NHẬP ====== -->
+        <section id="imports" class="card section hidden">
+          <h3>📥 Quản lý Phiếu Nhập</h3>
+
+          <div class="controls" style="margin-bottom: 10px">
+            <button id="add-import" class="btn primary">
+              Tạo phiếu nhập mới
+            </button>
+          </div>
+
+          <div
+            id="import-add-container"
+            class="hidden"
+            style="margin-bottom: 10px; border: 1px solid #ccc; padding: 10px"
+          >
+            <h4>Thêm phiếu nhập mới</h4>
+            <form id="import-form">
+              <label
+                >Ngày nhập:
+                <input type="date" id="import-date" required />
+              </label>
+              <label
+                >Sản phẩm:
+                <select id="import-product" required></select>
+              </label>
+              <label
+                >Giá nhập:
+                <input
+                  type="number"
+                  id="import-price"
+                  min="0"
+                  step="0.01"
+                  required
+                />
+              </label>
+              <label
+                >Số lượng:
+                <input type="number" id="import-qty" min="1" required />
+              </label>
+              <button type="submit">Thêm phiếu nhập</button>
+              <button
+                type="button"
+                onclick="document.getElementById('import-add-container').classList.add('hidden')"
+              >
+                Hủy
+              </button>
+            </form>
+          </div>
+
+          <div
+            id="import-edit-container"
+            class="hidden"
+            style="margin-bottom: 10px; border: 1px solid #ccc; padding: 10px"
+          >
+            <h4>Sửa phiếu nhập</h4>
+            <form id="edit-import-form">
+              <input type="hidden" id="edit-import-id" />
+              <label
+                >Sản phẩm:
+                <select id="edit-import-product" disabled></select>
+              </label>
+              <label
+                >Giá nhập:
+                <input
+                  type="number"
+                  id="edit-import-price"
+                  min="0"
+                  step="0.01"
+                  required
+                />
+              </label>
+              <label
+                >Số lượng:
+                <input type="number" id="edit-import-qty" min="1" required />
+              </label>
+              <button type="submit">Lưu thay đổi</button>
+              <button
+                type="button"
+                onclick="document.getElementById('import-edit-container').classList.add('hidden')"
+              >
+                Hủy
+              </button>
+            </form>
+          </div>
+
+          <div style="margin-bottom: 10px">
+            <input
+              type="text"
+              id="import-search"
+              placeholder="Tìm phiếu nhập..."
+            />
+            <button id="search-import-btn" class="btn">Tìm</button>
+          </div>
+
+          <table boder="1" style="width: 100%; margin-bottom: 10px">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Ngày</th>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng nhập</th>
+                <th>Tồn kho</th>
+                <th>Trạng thái</th>
+                <th>Tổng tiền</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="imports-table"></tbody>
+          </table>
+        </section>
+        <section id="orders" class="card section hidden">
+          <h3>Đơn hàng</h3>
+          <div class="controls">
+            <select id="order-filter">
+              <option value="">Tất cả</option>
+              <option value="new">Mới</option>
+              <option value="processing">Đang xử lý</option>
+              <option value="shipped">Đã giao</option>
+              <option value="cancelled">Hủy</option>
+            </select>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Ngày</th>
+                <th>Khách hàng</th>
+                <th>TT</th>
+                <th>Tổng</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table"></tbody>
+          </table>
+        </section>
+
+        <section id="pricing" class="card section hidden">
+          <h3>Quản lý giá & tỉ lệ lợi nhuận</h3>
+          <div class="small">
+            Bạn có thể nhập tỉ lệ lợi nhuận (%) theo loại sản phẩm hoặc sửa giá
+            từng sản phẩm.
+          </div>
+          <div style="margin-top: 12px" class="form-grid">
+            <div>
+              <label>Tỉ lệ lợi nhuận (theo danh mục)</label>
+              <select id="profit-category">
+                <option value="">Chọn danh mục</option>
+              </select>
+              <input id="profit-percent" placeholder="% lợi nhuận (vd: 20)" />
+              <button id="apply-profit" class="btn primary">Áp dụng</button>
+            </div>
+            <div>
+              <label>Chỉnh giá sản phẩm trực tiếp</label>
+              <select id="product-price-select">
+                <option value="">Chọn sản phẩm</option>
+              </select>
+              <input id="product-price-input" placeholder="Giá bán (VND)" />
+              <button id="save-product-price" class="btn primary">Lưu</button>
+            </div>
+          </div>
+        </section>
+        <section id="inventory" class="card section hidden">
+          <h3>📦 Quản lý tồn kho & cảnh báo</h3>
+
+          <!-- 1️⃣ Cảnh báo tồn kho theo ngưỡng -->
+          <div class="controls">
+            <input
+              id="inv-stock-threshold"
+              type="number"
+              placeholder="Nhập ngưỡng cảnh báo (ví dụ 10)"
+            />
+            <button id="inv-check-stock" class="btn">Kiểm tra tồn kho</button>
+          </div>
+          <div id="inv-stock-result" style="margin-top: 15px"></div>
+
+          <hr />
+
+          <!-- 2️⃣ Tra cứu tồn kho theo sản phẩm/danh mục -->
+          <div class="controls">
+            <select id="inv-stock-category">
+              <option value="">-- Tất cả danh mục --</option>
+            </select>
+            <select id="inv-stock-product">
+              <option value="">-- Chọn sản phẩm --</option>
+            </select>
+            <button id="inv-btn-search-stock" class="btn">Tra cứu tồn</button>
+          </div>
+          <div id="inv-stock-search-result" class="mt-2"></div>
+
+          <hr />
+
+          <!-- 3️⃣ Thống kê nhập/xuất theo ngày -->
+          <div class="controls">
+            <label>Từ ngày:</label>
+            <input type="date" id="inv-date-from" />
+            <label>Đến ngày:</label>
+            <input type="date" id="inv-date-to" />
+            <button id="inv-btn-stock-stats" class="btn">Thống kê</button>
+          </div>
+          <div id="inv-stock-stats" class="mt-2"></div>
+        </section>
+
+        <section id="settings" class="card section hidden">
+          <h3>Cài đặt</h3>
+          <div class="small">
+            Một số tùy chọn: đồng bộ dữ liệu khách hàng, reset dữ liệu mẫu.
+          </div>
+          <div style="margin-top: 12px" class="controls">
+            <button id="sync-to-customer" class="btn primary">
+              Đồng bộ với phần khách hàng
+            </button>
+            <button id="reset-sample" class="btn">Reset dữ liệu mẫu</button>
+          </div>
+        </section>
+        <section id="orders" class="card section hidden">
+          <h3>📦 Quản lý đơn hàng</h3>
+
+          <!-- Lọc theo trạng thái -->
+          <div class="controls" style="margin-bottom: 10px">
+            <label>Trạng thái:</label>
+            <select id="order-filter">
+              <option value="">Tất cả</option>
+              <option value="new">Mới đặt</option>
+              <option value="processing">Đang xử lý</option>
+              <option value="shipped">Đã giao</option>
+              <option value="cancelled">Hủy</option>
+            </select>
+
+            <!-- Lọc theo khoảng ngày -->
+            <label>Từ ngày:</label>
+            <input type="date" id="order-start-date" />
+            <label>Đến ngày:</label>
+            <input type="date" id="order-end-date" />
+            <button id="order-filter-date" class="btn">Lọc theo ngày</button>
+          </div>
+
+          <table borde="1" style="width: 100%">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Ngày đặt</th>
+                <th>Khách hàng</th>
+                <th>Trạng thái</th>
+                <th>Tổng tiền</th>
+                <th>Hành động</th>
+                >
+              </tr>
+            </thead>
+            <tbody id="orders-table"></tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+
+    <!-- Script xử lý -->
+    <script src="js/admin.js"></script>
+  </body>
+</html>

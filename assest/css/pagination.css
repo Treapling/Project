@@ -1,0 +1,54 @@
+/* === PHÂN TRANG === */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 30px 0;
+    padding: 20px 0;
+}
+
+.pagination-btn,
+.pagination-number {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--gray-l);
+    background-color: var(--white);
+    color: var(--gray-d);
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 0;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination-btn:hover:not(:disabled),
+.pagination-number:hover {
+    background-color: var(--bright-green);
+    color: var(--white);
+    border-color: var(--bright-green);
+}
+
+.pagination-btn:disabled {
+    background-color: var(--gray-l);
+    color: rgba(0, 0, 0, 0.3);
+    cursor: not-allowed;
+    border-color: var(--gray-l);
+}
+
+.pagination-number.active {
+    background-color: var(--bright-green);
+    color: var(--white);
+    border-color: var(--bright-green);
+    font-weight: 600;
+}
+
+.pagination-dots {
+    color: var(--gray-d);
+    font-size: 1.6rem;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+}

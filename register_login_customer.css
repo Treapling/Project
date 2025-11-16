@@ -1,0 +1,88 @@
+/* == form login/register/customer == */
+/* Đăng nhập, đăng ký */
+.login-register {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+    z-index: 3;
+}
+
+.container-login-register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.form-box {
+    position: absolute;
+    width: 100%;
+    max-width: 400px;
+    padding: 25px;
+    margin: 25px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 30px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: #eee;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;  
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    background: var(--dark-navy-blue);
+    color: #fff;
+    transition: 0.5s;
+}
+
+p {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+p a {
+    color: var(--bright-green);
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+/* Thông tin khách hàng */
+.user-name {
+    display: none;
+    cursor: pointer;
+    padding-right: 15px;
+    color: #fff;
+}
+
+.form-btn {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}

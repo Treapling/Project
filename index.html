@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- embed fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- css -->
+    <link rel="stylesheet" href="assest/css/style.css" />
+    <link rel="stylesheet" href="assest/css/register_login_customer.css" />
+    <link rel="stylesheet" href="assest/css/payment.css" />
+    <link rel="stylesheet" href="assest/css/cart.css" />
+    <link rel="stylesheet" href="assest/css/pagination.css" />
+
+    <!-- fonts icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    />
+
+    <title>StepLab Store</title>
+  </head>
+
+  <body>
+    <!-- === header === -->
+    <header>
+      <div class="header-content">
+        <div class="header-body">
+          <!-- nav bars -->
+          <div class="nav_bars">
+            <a href="#"><i class="fa-solid fa-bars"></i></a>
+          </div>
+          <!-- logo -->
+          <img src="assest/img/StepLab_Logo.svg" alt="3S_Logo" class="logo" />
+
+          <!-- nav -->
+          <div class="nav">
+            <ul>
+              <li><a href="#" id="home-link" class="active">Trang Chủ</a></li>
+              <li><a href="#" id="product-link">Sản Phẩm</a></li>
+            </ul>
+          </div>
+          <!-- tìm kiếm -->
+          <div class="search-bar">
+            <input
+              type="text"
+              class="basic-search"
+              id="basic-search"
+              placeholder="Bạn đang tìm gì..."
+            />
+            <button class="basic-btn">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+
+          <!-- icon, đăng nhập, đăng ký, thông tin khách hàng -->
+          <div class="action">
+            <ul>
+              <!-- đăng nhập, đăng ký -->
+              <li class="user-section">
+                <a href="#" class="icon"><i class="fa-solid fa-user"></i></a>
+                <div class="user-links">
+                  <a href="#" class="btn">Đăng nhập</a>
+                  <a href="#" class="btn">Đăng ký </a>
+                </div>
+              </li>
+              <!-- Tên khách hàng -->
+              <span id="user-name" class="user-name"></span>
+              <!-- Giỏ hàng -->
+              <li>
+                <a href="#" class="icon">
+                  <i class="fa-solid fa-cart-shopping"></i>
+                  <span class="icon-notice">0</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="btn" id="action-btn">Giỏ hàng</a>
+                <div class="header-cart">
+                  <div class="header-cart-list">
+                    <h4>GIỎ HÀNG</h4>
+                    <img
+                      src="img/no-cart.png"
+                      alt="no cart"
+                      class="header-no-cart-img"
+                    />
+                    <span class="header-no-cart-msg"
+                      >Hiện chưa có sản phẩm</span
+                    >
+                    <!-- <div class="header-cart-list-item">
+                                        <img src="./assest/img/Nike_Pegasus_Plus.jpg" alt="Giày Chạy Bộ Nam Nike Pegasus Plus - Đen" class="header-cart-list-img">
+                                        <div class="header-cart-info">
+                                            <p class="header-cart-name">Giày Chạy Bộ Nam Nike Pegasus Plus - Đen</p>
+                                            <p class="header-cart-size">36</p>
+                                            <div class="header-cart-price">
+                                                <input type="text" value="1" min="1" class="header-cart-qty">
+                                                <span class="header-cart-item-price">3.485.400₫</span>
+                                            </div>
+                                        </div>
+                                        <span class="header-cart-remove">×</span>
+                                    </div> -->
+                    <div class="cart-total">
+                      <span>TỔNG TIỀN:</span>
+                      <label>0₫</label>
+                    </div>
+                    <div class="cart-buttons">
+                      <button class="btn-view">XEM GIỎ HÀNG</button>
+                      <button class="btn-pay">THANH TOÁN</button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <!-- Truck icon (orders) -->
+              <li>
+                <a href="orders.html" class="icon" id="orders-icon"><i class="fa-solid fa-truck"></i></a>
+              </li>
+              <!-- Đơn hàng -->
+              <li>
+                <a href="orders.html" class="btn" id="orders-link">Đơn hàng</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Đăng nhập -->
+    <div class="login-register" id="login">
+      <div class="container-login-register">
+        <div class="form-box" id="login-form">
+          <div class="close"><i class="fa-solid fa-xmark"></i></div>
+          <form action="" id="form-1">
+            <h2>Đăng nhập</h2>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email"
+              required
+            />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Mật khẩu"
+              required
+            />
+            <button type="submit" name="login">Đăng nhập</button>
+            <p>Bạn chưa có tài khoản? <a href="#">Đăng ký</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Đăng kí -->
+    <div class="login-register" id="register">
+      <div class="container-login-register">
+        <div class="form-box" id="register-form">
+          <div class="close"><i class="fa-solid fa-xmark"></i></div>
+          <form action="" id="form-2">
+            <h2>Đăng ký</h2>
+            <input
+              type="text"
+              name="username"
+              placeholder="Họ và tên"
+              required
+            />
+            <input type="email" name="email" placeholder="Email" required />
+            <input
+              type="password"
+              name="password"
+              placeholder="Mật khẩu"
+              required
+            />
+            <button type="submit" name="register">Đăng ký</button>
+            <p>Bạn đã có tài khoản? <a href="#">Đăng nhập</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Thông tin khách hàng -->
+    <div class="login-register" id="customer-info">
+      <div class="container-login-register">
+        <div class="form-box">
+          <div class="close"><i class="fa-solid fa-xmark"></i></div>
+          <h2>Thông tin khách hàng</h2>
+          <label>Họ và tên:</label>
+          <input type="text" id="info-name" disabled />
+
+          <label>Email:</label>
+          <input type="text" id="info-email" disabled />
+
+          <label>Mật khẩu:</label>
+          <input type="password" id="info-password" disabled />
+
+          <div>
+            <div class="form-btn">
+              <button id="edit-btn">Sửa</button>
+              <button id="save-btn">Lưu</button>
+            </div>
+
+            <button id="logout-btn">Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Giỏ hàng -->
+    <div class="cart-detail">
+      <div class="cart-detail-header">
+        <button class="back-btn"><i class="fa-solid fa-arrow-left"></i></button>
+        <h2 class="cart-detail-header-title">Giỏ Hàng</h2>
+      </div>
+      <div class="cart-detail-container">
+        <table class="cart-detail-table">
+          <thead>
+            <tr>
+              <th style="width: 70px"></th>
+              <th style="width: 130px">Hình ảnh</th>
+              <th style="width: 530px">Sản phẩm</th>
+              <th style="width: 165px">Giá</th>
+              <th style="width: 120px">Số lượng</th>
+              <th style="width: 165px">Thành tiền</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- <tr>
+                        <td><button class="cart-detail-remove-btn">×</button></td>
+                        <td>
+                            <img src="./assest/img/Adidas_F50_Elite.jpg" alt="Giày" class="cart-detail-product-img">
+                        </td>
+                        <td>
+                            <div class="cart-detail-product-name">Giày Chạy Bộ Nam Nike Pegasus Plus - Đen</div>
+                        </td>
+                        <td class="cart-detail-price">3.485.400đ</td>
+                        <td class="cart-detail-quantity">
+                            <input type="text" min="1" value="1">
+                        </td>
+                        <td class="cart-detail-price">3.485.400đ</td>
+                    </tr> -->
+          </tbody>
+        </table>
+
+        <div class="cart-detail-total">
+          <div>
+            Tổng:<span class="cart-detail-total-price">3.485.400đ</span>
+          </div>
+        </div>
+
+        <div class="cart-detail-bottom">
+          <button class="checkout-btn">Thanh Toán</button>
+        </div>
+      </div>
+    </div>
+    <!-- Thanh toán -->
+    <div class="payment">
+      <div class="payment-header">
+        <button class="back-btn"><i class="fa-solid fa-arrow-left"></i></button>
+        <h2 class="payment-header-title">Thanh Toán</h2>
+      </div>
+      <div class="payment-container">
+        <div class="payment-container-left">
+          <h3 class="payment-title">Giỏ hàng của bạn:</h3>
+
+          <div class="payment-table">
+            <div class="payment-table-header">
+              <div>Hình ảnh</div>
+              <div>Tên sản phẩm</div>
+              <div>Số lượng</div>
+              <div>Giá</div>
+              <div>Thao tác</div>
+            </div>
+            <!-- <div class="payment-item">
+                        <div class="item-image">
+                            <img src="./assest/img/Adidas_F50_Elite.jpg" alt="Vans Old Skool">
+                        </div>
+                        <div class="item-info">
+                            <h3>Vans Old Skool 507698</h3>
+                            <p class="item-size"><strong>27</strong></p>
+                        </div>
+                        <div class="quantity-control">
+                            <input type="text" class="qty-input" value="1" min="1">
+                        </div>
+                        <div class="item-price">450.000₫</div>
+                        <div class="item-close">
+                            <button class="close-btn">Xóa</button>
+                        </div>
+                    </div> -->
+            <div class="payment-total">
+              <span>Tổng tiền:</span>
+              <span class="total-amount">0₫</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="payment-container-right">
+          <h3 class="payment-title">Hình thức thanh toán:</h3>
+          <div class="payment-methods">
+            <div class="radio-group">
+              <div class="radio-option">
+                <input type="radio" name="payment" id="cod" checked />
+                <label for="cod">Thanh toán khi nhận hàng (COD)</label>
+              </div>
+              <div class="radio-option">
+                <input type="radio" name="payment" id="transfer" />
+                <label for="transfer">Thanh toán bằng chuyển khoản</label>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="payment-title">Thông tin giao hàng:</h3>
+          <div class="shipping-info">
+            <div class="form-row full-width">
+              <div class="form-group full-width">
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input
+                      type="radio"
+                      name="address-type"
+                      id="saved-address"
+                      checked
+                      onclick="toggleAddressForm()"
+                    />
+                    <label for="saved-address"
+                      >Sử dụng địa chỉ từ tài khoản</label
+                    >
+                  </div>
+                  <div class="radio-option">
+                    <input
+                      type="radio"
+                      name="address-type"
+                      id="new-address"
+                      onclick="toggleAddressForm()"
+                    />
+                    <label for="new-address">Địa chỉ mới</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="saved-address-info" class="saved-address-display">
+              <div class="saved-info-box">
+                <p><strong>Tan Tung</strong></p>
+                <p>Số điện thoại: Chưa cập nhật</p>
+                <p>Email: tantung@gmail.com</p>
+                <p>Địa chỉ: Chưa cập nhật</p>
+              </div>
+            </div>
+
+            <div id="new-address-form" style="display: none">
+              <div class="form-row">
+                <div class="form-group">
+                  <input type="text" name="name" placeholder="Họ tên" />
+                </div>
+                <div class="form-group">
+                  <input type="tel" name="phone" placeholder="Số điện thoại" />
+                </div>
+              </div>
+
+              <div class="form-row full-width">
+                <div class="form-group full-width">
+                  <input type="email" name="email" placeholder="Email" />
+                </div>
+              </div>
+
+              <div class="form-row full-width">
+                <div class="form-group full-width">
+                  <input type="text" name="detail" placeholder="Địa chỉ" />
+                </div>
+              </div>
+
+              <div class="form-row full-width">
+                <div class="form-group full-width">
+                  <textarea
+                    placeholder="Yêu cầu khác (Không bắt buộc)"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="checkbox-group">
+              <input type="checkbox" id="terms" />
+              <label for="terms"
+                >Tôi đã đọc và đồng ý với điều kiện giao dịch chung của
+                StepLab</label
+              >
+            </div>
+
+            <button class="submit-btn">Thanh Toán</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- === container === -->
+    <div class="container no-sidebar">
+      <!-- container top -->
+      <div class="container-top">
+        <div class="container-top-content">
+          <div class="container-top-item">
+            <i class="fa-regular fa-truck"></i>
+            <p>Giao hàng nhanh toàn quốc</p>
+          </div>
+
+          <div class="container-top-item">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            <p>Miễn phí đổi hàng trong 07 ngày</p>
+          </div>
+          <div class="container-top-item">
+            <i class="fa-solid fa-check"></i>
+            <p>Cam kết hàng 100% chính hãng</p>
+          </div>
+          <div class="container-top-item">
+            <i class="fa-solid fa-box"></i>
+            <p>Đóng gói cẩn thận</p>
+          </div>
+        </div>
+      </div>
+      <!-- Slider -->
+      <section class="slider">
+        <div class="slider-container">
+          <div class="slider-content">
+            <div class="slider-item">
+              <a href="#"><img src="img/banner1.jpg" alt="banner1" /></a>
+            </div>
+            <div class="slider-item">
+              <a href="#"><img src="img/banner2.jpg" alt="banner2" /></a>
+            </div>
+            <div class="slider-item">
+              <a href="#"><img src="img/banner3.jpg" alt="banner3" /></a>
+            </div>
+          </div>
+          <div class="slider-item-btn">
+            <i class="fa-solid fa-chevron-left"></i>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+        </div>
+      </section>
+      <!-- container-title -->
+      <div class="container-title">
+        <div class="container-title-content">
+          <p>TẤT CẢ SẢN PHẨM</p>
+        </div>
+      </div>
+      <!-- container main -->
+      <div class="container-main">
+        <!-- container left -->
+        <div class="container-left">
+          <div class="category">
+            <h3>Loại Giày</h3>
+            <div class="category-item">
+              <div class="search-filter" id="filter-category">
+                <div class="search-filter-list">
+                  <div class="search-filter-item">
+                    <input
+                      type="checkbox"
+                      name="Giày Chạy Bộ"
+                      id="Giày Chạy Bộ"
+                    />
+                    <label for="Giày Chạy Bộ">Giày Chạy Bộ</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input
+                      type="checkbox"
+                      name="Giày Đá Bóng"
+                      id="Giày Đá Bóng"
+                    />
+                    <label for="Giày Đá Bóng">Giày Đá Bóng</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input
+                      type="checkbox"
+                      name="Giày Sneaker"
+                      id="Giày Sneaker"
+                    />
+                    <label for="Giày Sneaker">Giày Sneaker</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input type="checkbox" name="Giày Nam" id="Giày Nam" />
+                    <label for="Giày Nam">Giày Nam</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input type="checkbox" name="Giày Nữ" id="Giày Nữ" />
+                    <label for="Giày Nữ">Giày Nữ</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <h3>Thương Hiệu</h3>
+            <div class="category-item">
+              <div class="search-filter" id="filter-brand">
+                <div class="search-filter-list">
+                  <div class="search-filter-item">
+                    <input type="checkbox" name="nike" id="nike" />
+                    <label for="nike">Nike</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input
+                      type="checkbox"
+                      name="under-armour"
+                      id="under-armour"
+                    />
+                    <label for="under-armour">Under Armour</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input type="checkbox" name="puma" id="puma" />
+                    <label for="puma">Puma</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input type="checkbox" name="hoka" id="hoka" />
+                    <label for="hoka">HOKA</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input type="checkbox" name="asics" id="asics" />
+                    <label for="asics">Asics</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input type="checkbox" name="on-running" id="on-running" />
+                    <label for="on-running">On Running</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input type="checkbox" name="adidas" id="adidas" />
+                    <label for="adidas">Adidas</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <h3>Giá</h3>
+            <div class="category-item">
+              <div class="search-filter" id="filter-price">
+                <div class="search-filter-list">
+                  <div class="search-filter-item">
+                    <input
+                      type="checkbox"
+                      name="gia-duoi-500"
+                      id="gia-duoi-500"
+                    />
+                    <label for="gia-duoi-500">Dưới 500.000₫</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input
+                      type="checkbox"
+                      name="gia-500-1000"
+                      id="gia-500-1000"
+                    />
+                    <label for="gia-500-1000">500.000₫ - 1.000.000₫</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input
+                      type="checkbox"
+                      name="gia-1000-2000"
+                      id="gia-1000-2000"
+                    />
+                    <label for="gia-1000-2000">1.000.000₫ - 2.000.000₫</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input
+                      type="checkbox"
+                      name="gia-2000-3000"
+                      id="gia-2000-3000"
+                    />
+                    <label for="gia-2000-3000">2.000.000₫ - 3.000.000₫</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input
+                      type="checkbox"
+                      name="gia-3000-4000"
+                      id="gia-3000-4000"
+                    />
+                    <label for="gia-3000-4000">3.000.000₫ - 4.000.000₫</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input
+                      type="checkbox"
+                      name="gia-4000-5000"
+                      id="gia-4000-5000"
+                    />
+                    <label for="gia-4000-5000">4.000.000₫ - 5.000.000₫</label>
+                  </div>
+                  <div class="search-filter-item">
+                    <input
+                      type="checkbox"
+                      name="gia-tren-5000"
+                      id="gia-tren-5000"
+                    />
+                    <label for="gia-tren-5000">Trên 5.000.000₫</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- container right -->
+        <div class="container-right">
+          <div class="no-product">
+            <p>Không có sản phẩm phù hợp với yêu cầu</p>
+          </div>
+          <div class="product" id="product-container">
+            <!-- <div class="product-list" data-category="giay-chay-bo giay-nam">
+                        <div class="product-item" data-id="sp-gcb-1">
+                            <img class="product-img" src="./assest/img/Nike_Pegasus_Plus.jpg" alt="Giày Chạy Bộ Nam Nike Pegasus Plus - Đen">
+                            <h4 class="product-name">Giày Chạy Bộ Nam Nike Pegasus Plus - Đen</h4>
+                            <p class="product-company">NIKE</p>
+                            <div class="price">
+                                <span class="price-old">5.890.000₫</span>
+                                <span class="price-current">3.485.400₫</span>
+                            </div>
+                        </div>
+                    </div> -->
+          </div>
+
+          <!-- Phân trang -->
+          <div class="pagination" id="pagination"></div>
+        </div>
+      </div>
+    </div>
+    <!-- == Chi tiết sản phẩm == -->
+    <!-- <div class="product-detail" data-id="sp-gcb-1">
+        <div class="product-detail-container">
+            <div class="close"><i class="fa-solid fa-xmark"></i></div>
+            <img src="./assest/img/Nike_Pegasus_Plus.jpg" alt="Giày Chạy Bộ Nam Nike Pegasus Plus - Đen">
+            <div class="product-info">
+                <p class="product-company">NIKE</p>
+                <h4 class="product-name">Giày Chạy Bộ Nam Nike Pegasus Plus - Đen</h4>
+                <div class="price">
+                    <span class="price-current">3.485.400₫</span>
+                    <span class="price-old">5.890.000₫</span>
+                </div>
+                <div class="product-size">
+                    <label for="size">Kích thước:</label>
+                    <select class="size">
+                        <option value="38">38</option>
+                        <option value="39">39</option>
+                        <option value="40">40</option>
+                        <option value="41">41</option>
+                        <option value="42">42</option>
+                    </select>
+                </div>
+                <div class="product-quantity">
+                    <label for="quantity">Số lượng:</label>
+                    <input type="number" class="quantity" value="1" min="1">
+                </div>
+                <div class="product-buttons">
+                    <button class="buy-now">MUA NGAY</button>
+                    <button class="add-cart">THÊM VÀO GIỎ HÀNG</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- === footer === -->
+    <footer class="footer" id="contact">
+      <div class="footer-list">
+        <p>© 2025 StepLab</p>
+      </div>
+    </footer>
+
+    <!-- main js -->
+    <script src="main.js"></script>
+    <!-- cart js -->
+    <script src="cart.js"></script>
+    <!-- product js -->
+    <script src="product.js"></script>
+    <!-- payment js -->
+    <script src="payment.js"></script>
+    <!-- pagination js -->
+    <script src="pagination.js"></script>
+    <!-- admin js -->
+    <script src="js/admin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Đơn hàng của tôi - StepLab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assest/css/style.css" />
+    <link rel="stylesheet" href="assest/css/register_login_customer.css" />
+    <link rel="stylesheet" href="assest/css/cart.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <div class="header-body">
+          <div class="nav_bars">
+            <a href="index.html"
+              ><i class="fa-solid fa-arrow-left"></i> Quay lại</a
+            >
+          </div>
+          <img src="assest/img/StepLab_Logo.svg" alt="3S_Logo" class="logo" />
+          <div class="nav">
+            <ul>
+              <li><a href="index.html">Trang Chủ</a></li>
+              <li><a href="orders.html" class="active">Đơn hàng</a></li>
+            </ul>
+          </div>
+          <div class="action">
+            <ul>
+              <li class="user-section">
+                <a href="#" class="icon"><i class="fa-solid fa-user"></i></a>
+                <div class="user-links">
+                  <a href="#" class="btn">Đăng nhập</a>
+                  <a href="#" class="btn">Đăng ký </a>
+                </div>
+              </li>
+              <span id="user-name" class="user-name"></span>
+              <li>
+                <a href="index.html" class="icon"
+                  ><i class="fa-solid fa-cart-shopping"></i
+                ></a>
+              </li>
+              <!-- Truck icon (orders) -->
+              <li>
+                <a href="orders.html" class="icon"><i class="fa-solid fa-truck"></i></a>
+              </li>
+              <li>
+                <a href="orders.html" class="btn">Đơn hàng</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="container-main">
+        <h2 style="margin: 20px 0">Đơn hàng của tôi</h2>
+        <div id="orders-container"></div>
+      </div>
+    </main>
+
+    <script src="main.js"></script>
+    <script src="js/orders.js"></script>
+  </body>
+</html>
