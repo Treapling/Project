@@ -38,7 +38,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadSavedAddress = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) return null;
-    return JSON.parse(localStorage.getItem("address_" + user.email)) || null;
+    // Prefer explicit saved address key, fallback to `user.address` (kept by profile)
+    const stored =
+      JSON.parse(localStorage.getItem("address_" + user.email)) || null;
+    if (stored) return stored;
+    return user.address || null;
   };
   const saveAddress = (address) => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -71,8 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Lấy tên từ address nếu có, không thì lấy từ user
         if (nameEl)
-          nameEl.textContent =
-            address?.name || user?.username || "Chưa cập nhật";
+          nameEl.textContent = address?.name || user?.name || "Chưa cập nhật";
         if (phoneEl)
           phoneEl.textContent =
             "Số điện thoại: " + (address?.phone || "Chưa cập nhật");
@@ -119,6 +122,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const div = document.createElement("div");
       div.className = "payment-item";
       div.dataset.id = item.id || item.name + "-" + item.size;
+
+      // Render size as read-only text (do not allow editing size in checkout)
+      const dataIndexAttr =
+        typeof item.__cartIndex !== "undefined"
+          ? ` data-index="${item.__cartIndex}"`
+          : "";
+
       div.innerHTML = `
         <div class="item-image"><img src="${item.img}" alt="${item.name}"></div>
         <div class="item-info">
@@ -128,7 +138,9 @@ document.addEventListener("DOMContentLoaded", () => {
           }</strong></p>
         </div>
         <div class="quantity-control">
-          <input type="text" class="qty-input" value="${item.qty}" min="1">
+          <input type="text" class="qty-input" value="${
+            item.qty
+          }" min="1"${dataIndexAttr}>
         </div>
         <div class="item-price" data-price="${priceValue}">${priceValue.toLocaleString(
         "vi-VN"
@@ -149,7 +161,11 @@ document.addEventListener("DOMContentLoaded", () => {
           return alert("Vui lòng đăng nhập để thực hiện hành động này!!");
         const cartItems = loadCart();
         if (!cartItems.length) return alert("Giỏ hàng trống!");
-        displayPaymentItems(cartItems);
+        // Attach cart index so payment UI can persist changes back to cart
+        const itemsWithIndex = cartItems.map((it, i) =>
+          Object.assign({}, it, { __cartIndex: i })
+        );
+        displayPaymentItems(itemsWithIndex);
         toggleAddressForm();
         openPayment();
       });
@@ -198,8 +214,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ===== CẬP NHẬT SỐ LƯỢNG =====
   document.addEventListener("input", (e) => {
-    if (e.target.classList.contains("qty-input")) updateTotal();
+    if (!e.target.classList.contains("qty-input")) return;
+    updateTotal();
+    // Persist quantity change to cart if this item maps to cart index
+    const idx = e.target.dataset.index;
+    if (typeof idx !== "undefined") {
+      try {
+        const cart = loadCart();
+        const i = Number(idx);
+        if (!isNaN(i) && cart[i]) {
+          cart[i].qty = parseInt(e.target.value) || 1;
+          saveCart(cart);
+          if (typeof updateMiniCart === "function") updateMiniCart();
+          if (typeof updateCartDetail === "function") updateCartDetail();
+        }
+      } catch (err) {}
+    }
   });
+
+  // Sizes are read-only in checkout; size-change handling removed.
 
   // ===== THANH TOÁN =====
   payBtn?.addEventListener("click", () => {
@@ -234,6 +267,23 @@ document.addEventListener("DOMContentLoaded", () => {
         return alert("Vui lòng điền đầy đủ họ tên, số điện thoại và địa chỉ!");
       const newAddress = { name, phone, email, address: detail, note };
       saveAddress(newAddress); // Lưu vào localStorage
+      // Also update the logged-in user's profile so profile modal shows the new address
+      try {
+        const user = JSON.parse(localStorage.getItem("user")) || {};
+        user.address = newAddress;
+        localStorage.setItem("user", JSON.stringify(user));
+        // Update in users list as well (shared with admin)
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        const idx = users.findIndex(
+          (u) => u.id === user.id || u.email === user.email
+        );
+        if (idx !== -1) {
+          users[idx] = Object.assign({}, users[idx], user);
+          localStorage.setItem("users", JSON.stringify(users));
+        }
+      } catch (err) {
+        // ignore
+      }
     }
 
     // ===== TẠO ĐƠN HÀNG CHO ADMIN =====
@@ -255,8 +305,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Lấy địa chỉ từ saved hoặc mới
     let addressData;
     if (document.getElementById("saved-address").checked) {
+      // Prefer explicit saved key, otherwise fall back to user.address
       addressData =
-        JSON.parse(localStorage.getItem("address_" + user.email)) || {};
+        JSON.parse(localStorage.getItem("address_" + user.email)) ||
+        user.address ||
+        {};
     } else {
       const name = document
         .querySelector('#new-address-form input[name="name"]')
@@ -296,6 +349,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===============================================
 
     saveCart([]); // Xóa giỏ hàng
+    try {
+      localStorage.removeItem("showCart");
+    } catch (e) {}
     if (typeof updateMiniCart === "function") updateMiniCart();
     if (typeof updateCartDetail === "function") updateCartDetail();
 
@@ -320,4 +376,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
   savedRadio?.addEventListener("change", toggleAddressForm);
   newRadio?.addEventListener("change", toggleAddressForm);
+
+  // Keep the saved-address display in sync when the user's profile/address changes
+  // Same-tab notification (dispatched by main.js when profile saved)
+  window.addEventListener("usersUpdated", () => {
+    try {
+      // Only update if payment modal is open
+      if (paymentPage && paymentPage.style.display === "block")
+        toggleAddressForm();
+    } catch (e) {}
+  });
+
+  // Cross-tab: listen for storage events for user/users/address_* changes
+  window.addEventListener("storage", (e) => {
+    try {
+      if (!e.key) return;
+      if (
+        e.key === "user" ||
+        e.key === "users" ||
+        e.key.startsWith("address_")
+      ) {
+        if (paymentPage && paymentPage.style.display === "block")
+          toggleAddressForm();
+      }
+      // If cart changed in another tab, refresh payment items while modal open
+      if (
+        e.key &&
+        e.key.startsWith("cart_") &&
+        paymentPage &&
+        paymentPage.style.display === "block"
+      ) {
+        const itemsWithIndex = loadCart().map((it, i) =>
+          Object.assign({}, it, { __cartIndex: i })
+        );
+        displayPaymentItems(itemsWithIndex);
+      }
+    } catch (err) {}
+  });
 });

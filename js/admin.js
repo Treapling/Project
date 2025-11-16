@@ -265,6 +265,18 @@ if (addUserBtn) {
   });
 }
 
+// Sync admin user list when `localStorage.users` changes from other tabs
+window.addEventListener("storage", (e) => {
+  if (e.key === "users") {
+    renderUsers();
+  }
+});
+
+// Also listen for a custom event dispatched from the same tab (profile edits)
+window.addEventListener("usersUpdated", () => {
+  renderUsers();
+});
+
 // ==============================
 // 🔹 6. Categories & sản phẩm theo danh mục
 // ==============================

@@ -20,47 +20,18 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
     />
   </head>
-  <body>
+  <body class="orders-page">
     <header>
       <div class="header-content">
         <div class="header-body">
-          <div class="nav_bars">
-            <a href="index.html"
-              ><i class="fa-solid fa-arrow-left"></i> Quay lại</a
+          <div class="cart-detail-header" style="width: 100%">
+            <button
+              class="back-btn"
+              onclick="window.location.href='index.html'"
             >
-          </div>
-          <img src="assest/img/StepLab_Logo.svg" alt="3S_Logo" class="logo" />
-          <div class="nav">
-            <ul>
-              <li><a href="index.html">Trang Chủ</a></li>
-              <li><a href="orders.html" class="active">Đơn hàng</a></li>
-            </ul>
-          </div>
-          <div class="action">
-            <ul>
-              <li class="user-section">
-                <a href="#" class="icon"><i class="fa-solid fa-user"></i></a>
-                <div class="user-links">
-                  <a href="#" class="btn">Đăng nhập</a>
-                  <a href="#" class="btn">Đăng ký </a>
-                </div>
-              </li>
-              <span id="user-name" class="user-name"></span>
-              <li>
-                <a href="index.html" class="icon"
-                  ><i class="fa-solid fa-cart-shopping"></i
-                ></a>
-              </li>
-              <!-- Truck icon (orders) -->
-              <li>
-                <a href="orders.html" class="icon"
-                  ><i class="fa-solid fa-truck"></i
-                ></a>
-              </li>
-              <li>
-                <a href="orders.html" class="btn">Đơn hàng</a>
-              </li>
-            </ul>
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <div class="cart-detail-header-title">Đơn hàng</div>
           </div>
         </div>
       </div>
@@ -73,7 +44,7 @@
       </div>
     </main>
 
-    <script src="main.js"></script>
+    <script src="js/main.js"></script>
     <script src="js/orders.js"></script>
   </body>
 </html>

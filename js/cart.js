@@ -83,6 +83,40 @@ function updateCartDetail() {
     const itemTotal = item.price * item.qty;
     total += itemTotal;
 
+    // Derive size options from products list if available, otherwise fallback to current size
+    let sizeOptions = [item.size || ""];
+    try {
+      const products = JSON.parse(localStorage.getItem("products")) || [];
+      const prod = products.find(
+        (p) => p.name === item.name || p.id === item.id || p.ma === item.ma
+      );
+      if (prod) {
+        const raw = prod.size || prod.sizes || prod.sizeList || "";
+        if (typeof raw === "string" && raw.indexOf(",") !== -1) {
+          const arr = raw
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean);
+          if (arr.length) sizeOptions = arr;
+        } else if (Array.isArray(raw) && raw.length) {
+          sizeOptions = raw.map((s) => String(s));
+        } else if (raw) {
+          sizeOptions = [String(raw)];
+        }
+      }
+    } catch (e) {
+      // ignore, keep fallback
+    }
+
+    const sizeHtml = sizeOptions
+      .map(
+        (s) =>
+          `<option value="${s}" ${
+            s === item.size ? "selected" : ""
+          }>${s}</option>`
+      )
+      .join("");
+
     const tr = document.createElement("tr");
     tr.innerHTML = `
                 <td><button class="cart-detail-remove-btn" data-index="${idx}">×</button></td>
@@ -92,6 +126,7 @@ function updateCartDetail() {
                 <td><div class="cart-detail-product-name">${
                   item.name
                 }</div></td>
+                <td class="cart-detail-size">${item.size || ""}</td>
                 <td class="cart-detail-price" data-price="${
                   item.price
                 }">${item.price.toLocaleString("vi-VN")}₫</td>
@@ -165,6 +200,8 @@ function bindCartDetailEvents() {
       }
     };
   });
+
+  // sizes are read-only in cart detail — no size-edit handlers
 }
 
 // ================== THÊM SẢN PHẨM VÀO GIỎ ==================
@@ -213,10 +250,16 @@ btnViewCart.addEventListener("click", () => {
   if (!user) return alert("Vui lòng đăng nhập để thực hiện hành động này!!");
   cartDetail.style.display = "block";
   document.body.classList.add("no-scroll");
+  try {
+    localStorage.setItem("showCart", "1");
+  } catch (e) {}
 });
 btnBackCart.addEventListener("click", () => {
   cartDetail.style.display = "none";
   document.body.classList.remove("no-scroll");
+  try {
+    localStorage.removeItem("showCart");
+  } catch (e) {}
 });
 
 // Ẩn mini cart khi click ra ngoài
@@ -236,4 +279,15 @@ document.addEventListener("click", (e) => {
 document.addEventListener("DOMContentLoaded", () => {
   updateMiniCart();
   updateCartDetail();
+  try {
+    const show = localStorage.getItem("showCart");
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (show === "1" && user) {
+      // Open cart detail and prevent page scroll
+      if (cartDetail) {
+        cartDetail.style.display = "block";
+        document.body.classList.add("no-scroll");
+      }
+    }
+  } catch (e) {}
 });
